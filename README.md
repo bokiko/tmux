@@ -2,6 +2,8 @@
 
 A quick reference guide for using tmux on Ubuntu systems.
 
+> **Note:** I personally prefer [GNU Screen](https://github.com/bokiko/screen) for its simplicity, but tmux is a great alternative with more advanced features. This guide is here for reference.
+
 ## Installation
 
 ```bash
