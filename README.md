@@ -1,21 +1,42 @@
-# Tmux Cheat Sheet for Ubuntu
+<div align="center">
 
-A quick reference guide for using tmux on Ubuntu systems.
+# Tmux Cheat Sheet
 
-> **Note:** I personally prefer [GNU Screen](https://github.com/bokiko/screen) for its simplicity, but tmux is a great alternative with more advanced features. This guide is here for reference.
+<h3>Quick reference for tmux terminal multiplexer on Ubuntu.</h3>
+
+<p>
+  <img src="https://img.shields.io/badge/Platform-Ubuntu-E95420" alt="Ubuntu" />
+  <img src="https://img.shields.io/badge/Tool-tmux-green" alt="tmux" />
+  <img src="https://img.shields.io/badge/Type-Cheat%20Sheet-blue" alt="Cheat Sheet" />
+</p>
+
+</div>
+
+---
+
+## What is tmux?
+
+**tmux** is a terminal multiplexer that lets you run multiple terminal sessions inside a single window. Perfect for SSH connections where you need persistent sessions that survive disconnections.
+
+> **Note:** I personally prefer [GNU Screen](https://github.com/bokiko/screen) for its simplicity, but tmux has more advanced features.
+
+---
 
 ## Installation
 
 ```bash
-sudo apt update
-sudo apt install tmux
+sudo apt update && sudo apt install tmux
 ```
 
-## Basic Commands
+---
+
+## Quick Reference
+
+### Basic Commands
 
 | Command | Description |
 |---------|-------------|
-| `tmux` | Start a new tmux session |
+| `tmux` | Start a new session |
 | `tmux new -s name` | Start a new named session |
 | `tmux ls` | List all sessions |
 | `tmux attach` | Attach to last session |
@@ -23,23 +44,27 @@ sudo apt install tmux
 | `tmux kill-session -t name` | Kill a specific session |
 | `tmux kill-server` | Kill all sessions |
 
-## Key Bindings (prefix is Ctrl+b)
+### Key Bindings (prefix: `Ctrl+b`)
 
-### Session Management
 | Shortcut | Description |
 |----------|-------------|
-| `prefix d` | Detach from session |
-| `prefix $` | Rename session |
-| `prefix s` | List sessions for selection |
+| `Ctrl+b d` | Detach from session |
+| `Ctrl+b $` | Rename session |
+| `Ctrl+b s` | List sessions for selection |
+| `Ctrl+b c` | Create new window |
+| `Ctrl+b n` | Next window |
+| `Ctrl+b p` | Previous window |
+| `Ctrl+b %` | Split vertically |
+| `Ctrl+b "` | Split horizontally |
 
+---
 
-
-## Common Configuration
+## Configuration
 
 Add to `~/.tmux.conf`:
 
 ```bash
-# Change prefix to Ctrl+a
+# Change prefix to Ctrl+a (more ergonomic)
 unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
@@ -58,34 +83,49 @@ bind | split-window -h
 bind - split-window -v
 ```
 
-## Auto-start tmux on SSH login
+---
+
+## Auto-Start on SSH Login
 
 Add to `~/.bashrc`:
 
 ```bash
-# Auto-start tmux on SSH login
 if [[ -n "$SSH_CONNECTION" ]] && [[ -z "$TMUX" ]]; then
     tmux attach -t ssh_tmux || tmux new -s ssh_tmux
 fi
 ```
 
-## Auto-start Application in tmux
+---
+
+## Auto-Start Application
+
+Create `~/start_app.sh`:
 
 ```bash
 #!/bin/bash
-# Save as ~/start_app.sh and make executable with: chmod +x ~/start_app.sh
-
-# Start a detached session
 tmux new-session -d -s myapp
-
-# Run commands in that session
 tmux send-keys -t myapp 'cd /path/to/app' C-m
 tmux send-keys -t myapp './start_script.sh' C-m
+```
 
-# To run at boot, add to crontab with: crontab -e
-# @reboot /home/username/start_app.sh
+Make executable and add to crontab:
+```bash
+chmod +x ~/start_app.sh
+crontab -e
+# Add: @reboot /home/username/start_app.sh
 ```
 
 ---
 
-For more detailed information, see `man tmux` or visit [tmux GitHub](https://github.com/tmux/tmux).
+## More Information
+
+- Official docs: `man tmux`
+- GitHub: [tmux/tmux](https://github.com/tmux/tmux)
+
+---
+
+<div align="center">
+
+Built by [@bokiko](https://github.com/bokiko)
+
+</div>
